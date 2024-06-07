@@ -38,7 +38,7 @@ public class TestNGListener implements ITestListener {
     @Override
     public void onTestFailure(ITestResult result) {
         System.out.println(result.getMethod() + " test has failed.");
-        getTest().log(Status.FAIL, "Test passed");
+        getTest().log(Status.FAIL, "Test Failed");
     }
 
     @Override

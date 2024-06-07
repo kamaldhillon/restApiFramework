@@ -7,10 +7,13 @@ import globalconstants.RestAssuredConstants;
 import io.restassured.RestAssured;
 import io.restassured.authentication.PreemptiveBasicAuthScheme;
 import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.filter.log.ResponseLoggingFilter;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.hamcrest.Matchers;
 import reportmanagement.ExtentManager;
+import io.restassured.filter.log.ResponseLoggingFilter;
 
 import static globalconstants.CommonConstants.MAX_TIMEOUT;
 
@@ -26,13 +29,16 @@ public class RestAssuredHelper {
 		ExtentTest node = ExtentManager.getTest();
 		resBuilder = new ResponseSpecBuilder();
 		resBuilder.expectResponseTime(Matchers.lessThan(MAX_TIMEOUT));
+//		resBuilder.expectStatusCode(200); // Expecting status code 200 (OK) as an example
+		resBuilder.expectContentType(ContentType.JSON); // Expecting JSON content type as an example
+		RestAssured.responseSpecification = resBuilder.build();
+
 		PreemptiveBasicAuthScheme authScheme = new PreemptiveBasicAuthScheme();
 		/*authScheme.setUserName("Admin");
 		authScheme.setPassword("secret");
 		RestAssured.authentication = authScheme;*/
-		RestAssured.responseSpecification = resBuilder.build();
-		request = RestAssured.given().log().all();
 
+		request = RestAssured.given().log().all();
 		try {
 			if (auth) {
 				request.headers( "Authorization", RestAssuredConstants.auth);
@@ -46,6 +52,7 @@ public class RestAssuredHelper {
 			//request.headers(RestAssuredConstants.ContentType, RestAssuredConstants.ApplicationJson, "Authorization", "Bearer mnmtrlv4e9vj5b115fcftrohpvcnbyfm");
 			if (postModelAsString != null) {
 				request.body(postModelAsString);
+				node.info(postModelAsString);
 			}
 			switch (requestType) {
 				case Delete:
@@ -76,7 +83,10 @@ public class RestAssuredHelper {
 				default:
 					throw new UnsupportedOperationException("Request type is not supported.");
 			}
+			response.then().log().all();
+			node.info(response.asPrettyString());
 		}
+
 		catch (Exception e){
 			e.printStackTrace();
 		}
