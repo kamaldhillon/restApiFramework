@@ -28,22 +28,22 @@ public class TestInit {
         }
     }
 
-    @BeforeClass(alwaysRun = true)
-    public void beforeClass() {
-        if (extentReport == null) {
-            throw new IllegalStateException("ExtentReport is not initialized. Ensure beforeSuite is executed.");
-        }
-        // To create parent Node in extent report
-        extent = extentReport.createTest(getClass().getSimpleName());
-        parent.set(extent);
-    }
-
-    @AfterClass
-    public void afterClass() {
-        if (extentReport != null) {
-            extentReport.flush();
-        }
-    }
+//    @BeforeClass(alwaysRun = true)
+//    public void beforeClass() {
+//        if (extentReport == null) {
+//            throw new IllegalStateException("ExtentReport is not initialized. Ensure beforeSuite is executed.");
+//        }
+//        // To create parent Node in extent report
+//        extent = extentReport.createTest(getClass().getSimpleName());
+//        parent.set(extent);
+//    }
+//
+//    @AfterClass
+//    public void afterClass() {
+//        if (extentReport != null) {
+//            extentReport.flush();
+//        }
+//    }
 
     @AfterSuite
     public void afterSuite() {

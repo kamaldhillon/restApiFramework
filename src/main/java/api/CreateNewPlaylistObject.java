@@ -10,11 +10,10 @@ import reportmanagement.ExtentManager;
 import utils.BaseClass;
 
 public class CreateNewPlaylistObject {
-    public void createNewPlaylist(){
-            ExtentTest node = ExtentManager.getTest();
+    public Response createNewPlaylist(){
+        Response response = null;
             BaseClass baseClass= new BaseClass();
             try {
-
 
                 Playlist list = new Playlist();
                 list.setName("New Test Playlist1");
@@ -25,17 +24,12 @@ public class CreateNewPlaylistObject {
                         "    \"description\": \"New playlist description\",\n" +
                         "    \"public\": false\n" +
                         "}";
-                Response response =  baseClass.restAssuredHelper.SpecifyAndSendRequest(RequestType.Post,
+                 response=  baseClass.restAssuredHelper.SpecifyAndSendRequest(RequestType.Post,
                         ApiProperties.getProperty("createNewPlaylist"),
                         requestBody, true);
-                if(response.getStatusCode() != 200){
-                    System.out.println(response.asString());
-                    node.fail("Response Status Code is : "+response.getStatusCode() + "  Reason : " + response.getStatusLine());
-                    throw new Exception("HttpResponseException + "+ response.getStatusLine());
-                }
-                node.info(response.asPrettyString());
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            return response;
     }
 }
