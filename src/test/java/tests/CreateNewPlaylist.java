@@ -15,6 +15,6 @@ public class CreateNewPlaylist extends TestInit {
         ExtentManager.startTest(TestCasesProperties.getTestCase("TC001"));
         CreateNewPlaylistObject playlistObjects = new CreateNewPlaylistObject();
         Response response=playlistObjects.createNewPlaylist();
-        Assert.assertEquals(response.getStatusCode(),200,"Status code is incorrect");
+        Assert.assertEquals(response.getStatusCode(),201,"Status code is incorrect");
     }
 }
